@@ -19,7 +19,7 @@ $menu = Menu::menus();
                     <li>
                         <? //='<pre>'; var_dump($photo); die; ?>
                         <a href="#">
-                            <img src="<? if ( $photo->getRasm()[0]->src){
+                            <img src="<? if (isset ($photo->getRasm()[0]->src)){
                                 $photo->getRasm()[0]->src;
                             }  ?>"  title="" id="wows1_3"
                                  style="width: 100%"/>
