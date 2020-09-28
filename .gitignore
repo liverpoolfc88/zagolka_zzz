@@ -1,0 +1,6 @@
+/runtime
+/config/db.php
+/web/assets/
+/uploads
+/web/uploads
+/vendor
