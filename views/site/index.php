@@ -44,7 +44,6 @@ $menu = Menu::menus();
             <div class="product-layout col-lg-4 col-md-4 col-sm-6 col-xs-12">
                 <div class="product-thumb transition">
                     <div class="image">
-                        <?php// var_dump($m['slug']); exit; ?>
                         <a href="<?= Url::to('/?slug=' . $m['slug'] . '&item_slug=' . $item->slug) ?>">
                             <img src="<?= $item->photo ?>" alt="<?= $item->translate->title ?>"
                                  title="<?= $item->translate->title ?>" class="img-responsive"></a>
