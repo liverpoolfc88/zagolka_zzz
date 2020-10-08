@@ -290,7 +290,7 @@ class SiteController extends Controller
     public function actionSale()
     {
         $item_id = $_GET['item'];
-        $quantity = ($_GET['quantity'])?$_GET['quantity']:1;
+        $quantity = (isset($_GET['quantity']))?$_GET['quantity']:1;
         //var_dump($item_id); die;
         $good = ShopcartGoods::saved($item_id, $quantity);
         if ($good=="success") {
