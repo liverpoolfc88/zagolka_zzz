@@ -99,7 +99,7 @@ use yii\helpers\Html;
         ?>
 
         <li ><a  href="<?=Url::to(['site/index', 'slug' => $value['slug']])?>" class="white parent-a"><i class="mar fa fa-play"></i><?=$value['title']?></a>
-            <? if ($value['children']) { ?>
+            <? if ($value['child']) { ?>
                
             <?} ?>
         </li>
