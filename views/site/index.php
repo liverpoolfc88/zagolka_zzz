@@ -44,12 +44,13 @@ $menu = Menu::menus();
             <div class="product-layout col-lg-4 col-md-4 col-sm-6 col-xs-12">
                 <div class="product-thumb transition">
                     <div class="image">
-                        <a href="<?= Url::to('/?slug=' . $menu->slug . '&item_slug=' . "#") ?>">
+                        <?php// var_dump($m['slug']); exit; ?>
+                        <a href="<?= Url::to('/?slug=' . $m['slug'] . '&item_slug=' . $item->slug) ?>">
                             <img src="<?= $item->photo ?>" alt="<?= $item->translate->title ?>"
                                  title="<?= $item->translate->title ?>" class="img-responsive"></a>
                     </div>
                     <div class="caption">
-                        <a href="<?= Url::to('/?slug=' . $menu->slug . '&item_slug=' . $item->slug) ?>"
+                        <a href="<?= Url::to('/?slug=' . $m['slug'] . '&item_slug=' . $item->slug) ?>"
                            class="prd-name"><?= $item->translate->title ?></a>
                         <!-- <p class="sku"><strong>Артикул:</strong>01371D-NRBD</p> -->
                         <div class="price-container-c">
