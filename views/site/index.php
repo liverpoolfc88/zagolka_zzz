@@ -45,7 +45,7 @@ $menu = Menu::menus();
                 <div class="product-thumb transition">
                     <div class="image">
                         <a href="<?= Url::to('/?slug=' . $m['slug'] . '&item_slug=' . $item->slug) ?>">
-                            <img src="<?= $item->photo ?>" alt="<?= $item->translate->title ?>"
+                            <img src="<?= $item->photo ?>" alt="<?= ($item->translate)?$item->translate->title: $item->title ?>"
                                  title="<?= $item->translate->title ?>" class="img-responsive"></a>
                     </div>
                     <div class="caption">
