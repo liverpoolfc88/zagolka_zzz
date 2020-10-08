@@ -91,8 +91,8 @@ use yii\helpers\Html;
 </footer>
 
 
-<?php $i=0; function PrintMenuFoot($menu){ ?>
-    <? foreach ($menu as $value) {
+<?php  function PrintMenuFoot($menu){ ?>
+    <? $i=0; foreach ($menu as $value) {
         $i++; 
         if ($i==5) break;
         // var_dump($key2); die;
