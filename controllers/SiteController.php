@@ -1,6 +1,7 @@
 <?php
 
 namespace app\controllers;
+use app\models\dilshod\Photo;
 use app\models\Lang;
 use Yii;
 use app\models\User;
@@ -108,7 +109,10 @@ class SiteController extends Controller
             }
             return $this->render('/'.$menu->template().'/pages');
         }
-        return $this->render('index');
+        $photos = Photo::find()->where(['status'=>Photo::STATUS_ACTIVE])->all();
+        return $this->render('index',[
+            'photos' => $photos,
+        ]);
     }
 
     /**
