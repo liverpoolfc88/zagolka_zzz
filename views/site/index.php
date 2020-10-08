@@ -17,9 +17,9 @@ $menu = Menu::menus();
             <ul>
                 <? foreach (\app\models\dilshod\Photo::getPhoto() as $photo): ?>
                     <li>
-                        <?//='<pre>'; var_dump($photo->getRasm()[0]->src); die; ?>
+                        <?//='<pre>'; var_dump($photo->rasm[0]['src']); die; //$photo->getRasm()[0]->src?>
                         <a href="#">
-                            <img src="<?= $photo->getRasm()[0]->src ?>" alt="<?= $photo->info ?>" title="" id="wows1_3"
+                            <img src="<?= $photo->rasm[0]['src'] ?>" alt="<?= $photo->info ?>" title="" id="wows1_3"
                                  style="width: 100%"/>
                         </a>
                         <div class="prikh_overlay"><?= $photo->info ?></div>

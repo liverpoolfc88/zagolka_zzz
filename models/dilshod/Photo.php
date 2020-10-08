@@ -68,10 +68,12 @@ class Photo extends \yii\db\ActiveRecord
         '0' => Lang::t('Nofaol'),
     ];
     }
-    public static function getPhoto(){
+    public static function getPhoto()
+    {
         return self::find()->where(['status'=>self::STATUS_ACTIVE])->all();
     }
-    public function getRasm(){
+    public function getRasm()
+    {
         return $this->hasMany(\app\models\dilshod\Rasm::className(), ['photo_id' => 'id'])->all();
     }
 }
