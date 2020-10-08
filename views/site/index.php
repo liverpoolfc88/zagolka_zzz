@@ -34,9 +34,11 @@ $menu = Menu::menus();
     <!-- End WOWSlider.com BODY section -->
 </div>
 
-<? foreach ($menu as $m): ?>
-    <? $items = MenuItem::getXit($m['id']); ?>
-    <? if (count($items) == 0) continue; ?>
+<?php $z=0; foreach ($menu as $m): ?>
+    <?php $items = MenuItem::getXit($m['id']); ?>
+    <?php $z++; if (count($items) == 0) continue;
+        if ($z==6) break;
+    ?>
     <h3><?= $m['title'] ?></h3>
     <div class="row">
         <? //echo "<pre>"; var_dump($mod); die; ?>
@@ -76,7 +78,7 @@ $menu = Menu::menus();
                         if ($item->status == 0) { ?>
                             <button type="button" class="disabled cart-button cart-button-vrl"
                                     data-id="<?= $item->id ?>"
-                                    enabled="enabled"><?= Lang::t("BAzada mavjud emas") ?></button>
+                                    enabled="enabled"><?= Lang::t("Bazada mavjud emas") ?></button>
                         <? } else { ?>
 
                             <button type="button" class="cart-button cart-button-krl" data-id="<?= $item->id ?>"
