@@ -17,7 +17,7 @@ $menu = Menu::menus();
             <ul>
                 <? foreach (\app\models\dilshod\Photo::getPhoto() as $photo): ?>
                     <li>
-                        <? //='<pre>'; var_dump($photo); die; ?>
+                        <?='<pre>'; var_dump($photo->getRasm()); die; ?>
                         <a href="#">
                             <img src="<?= $photo->getRasm()[0]->src ?>" alt="<?= $photo->info ?>" title="" id="wows1_3"
                                  style="width: 100%"/>
