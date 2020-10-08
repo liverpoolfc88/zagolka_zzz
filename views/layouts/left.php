@@ -51,7 +51,7 @@ use app\models\Lang;
 <?php function PrintMenuLeft($menu){ ?>
     <? foreach ($menu as $value) { ?>
         <li><a href="<?=Url::to(['site/index', 'slug' => $value['slug']])?>" class="parent-a"><?=$value['title']?></a>
-            <? if ($value['children']) { ?>
+            <? if ($value['child']) { ?>
                 <!-- <ul> -->
                     <? //PrintMenuLeft($value['children']); ?>
                 <!-- </ul> -->
