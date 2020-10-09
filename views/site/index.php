@@ -87,7 +87,7 @@ $menu = Menu::menus();
                         <!-- Button fastorder -->
                         <div class="button-gruop">
                             <!-- Button fastorder -->
-                            <div id="fastorder-form-container5204"></div>
+<!--                            <div id="fastorder-form-container5204"></div>-->
                         </div><!-- END :  button fastorder -->
                     </div>
                 </div>
