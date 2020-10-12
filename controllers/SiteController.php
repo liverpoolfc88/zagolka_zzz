@@ -204,7 +204,7 @@ class SiteController extends Controller
         $model->phone=$user->tel;
         $model->name=$user->username;
         $model->email=$user->email;
-        $model->access_token=null;
+//        $model->access_token=null;
         // $model->remark=NULL;
         
         if ($model->save())
