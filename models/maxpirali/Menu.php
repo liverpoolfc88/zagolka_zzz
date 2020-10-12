@@ -102,7 +102,7 @@ class Menu extends \yii\db\ActiveRecord
             case 2:
                 $template = 'catalog';
                 break;
-            
+
             default:
                 $template = '';
                 break;
