@@ -113,4 +113,5 @@ class MenuItem extends \yii\db\ActiveRecord
         ->orderBy(['views'=>SORT_DESC])
         ->limit(3)->all();
     }
+
 }
