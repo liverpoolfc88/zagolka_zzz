@@ -32,6 +32,7 @@ $this->title = Lang::t('Shopping cart');
   background-color: #4CAF50;
   color: white;
 }
+
 </style>
 <!--<section>-->
 <!--    <div class="row">-->
@@ -111,7 +112,6 @@ $this->title = Lang::t('Shopping cart');
                             <button type="button" data-id="169" title="Remove" class="btn btn-danger delete"><i class="fa fa-times-circle"></i></button>
                         </a>
                     </td>
-
                 </tr>
             <?php endforeach; ?>
         <?php endif;?>
