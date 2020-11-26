@@ -45,7 +45,7 @@ $this->title = Lang::t('Shopping cart');
      <th class="width-10"><?= Lang::t('Delete') ?></th>
   </tr>
   <?php if ($items->goods) :?>
-  <?php foreach ($items->goods as $item) : ?>
+  <?php foreach ($items->goods as $key=> $item) : ?>
   <tr>
     <td>
     	<a href="<?=Url::to('/?slug='.$item->item->template->slug.'&item_slug='.$item->item->slug)?>">
@@ -81,8 +81,8 @@ $this->title = Lang::t('Shopping cart');
      <?= Lang::t('  ta bor') ?>
          <?}?>
      </td>
-    <td >
-    	<input type="number" name="quantity" data-id="<?=$item->item->id?>" min="1" class="input-quantity form-control" value="<?=$item->count?>">
+    <td style="width: 10%" >
+    	<input   type="number" name="quantity" data-id="<?=$item->item->id?>" min="1" class="lolo input-quantity form-control" value="<?=$item->count?>">
     </td>
     <td>
     	 <a class="remove-item remove" href="#"      data-id="<?=$item->good_id?>" data-value="<?= $item->price  ?>" title="<?= Lang::t('Remove Item From Cart') ?>">
@@ -96,47 +96,82 @@ $this->title = Lang::t('Shopping cart');
   <tfoot>
     <tr style="border-top:solid">
      <td colspan="3"><h4><?= Lang::t('Total Cost') ?></h4></td>
-     <td colspan="2" class="width-90 summa"><h4><b><?=$items->cost ?></b></h4></td>
-     <td><button class="btn btn-danger center update"><?=Lang::t('Update')?></button></td>
+     <td id="cost" colspan="2" class="width-90 summa"><h4><b>0</b></h4></td>
+     <td>
+<!--         <button class="btn btn-danger center update">--><?//=Lang::t('Update')?><!--</button>-->
+<!--         <input  id="sa" class="btn btn-danger center" type="button" value="--><?//=Lang::t('Update')?><!--">-->
+     </td>
     </tr>
     </tfoot>
 </table>
 
  <div class="">
-                                <a class="btn btn-danger left" href="<?//= $this->to('catalog/books') ?>"><?= Lang::t('Continue Shopping') ?></a>                               
-                                <a class="btn btn-danger main-bg right" href="<?=Url::to(['site/complete'])?>"><?= Lang::t('Proceed to Checkout') ?></a>
-                            </div>
+    <a class="btn btn-danger left" href="<?//= $this->to('catalog/books') ?>"><?= Lang::t('Continue Shopping') ?></a>
+    <a class="btn btn-danger main-bg right" href="<?=Url::to(['site/complete'])?>"><?= Lang::t('Proceed to Checkout') ?></a>
+</div>
 
 
 
 
 <p></p>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        $("input.lolo").bind('change', xodisa)
+    });
+    function xodisa(e) {
+        // alert('okk');
+        e.preventDefault();
+
+        var count = [];
+           var id = [];
+           $(".input-quantity").each(function(i){
+               count[i] = $(this).val();
+           });
+           $(".input-quantity").each(function(i){
+               id[i] = $(this).data("id");
+           });
+
+
+           $.get("/site/update",{item:id, quantity:count},function(response){
+
+                   if(response.result=="success"){
+                       $("#cost").html(response.cost);
+                       console.log(response.cost);
+
+                   } else console.log(response.result);
+               });
+        // console.log(data);
+    }
+</script>
 <?php
 
 $this->registerJs('
-
-    $("button.update").click(function(e){
-        e.preventDefault();
-        var count = [];
-        var id = [];
-        $(".input-quantity").each(function(i){
-            count[i] = $(this).val();
-        });
-        $(".input-quantity").each(function(i){
-            id[i] = $(this).data("id");
-        });
-        console.log(id);
-        $.get("/site/update",{item:id, quantity:count},function(response){
-            
-                if(response.result=="success"){
-                    window.location.reload();
-                    
-                    console.log(response.result);
-                } else console.log(response.result);
-            });
-    });
-
-
+//    $function(){
+//    alert(salom);
+//        $("updatesar").click(function(e){
+//            e.preventDefault();
+//            
+//            var count = [];
+//            var id = [];
+//            $(".input-quantity").each(function(i){
+//                count[i] = $(this).val();
+//            });
+//            $(".input-quantity").each(function(i){
+//                id[i] = $(this).data("id");
+//            });
+//            console.log(id);
+//            
+//            $.get("/site/update",{item:id, quantity:count},function(response){
+//                
+//                    if(response.result=="success"){
+//                        console.log(response.result)
+//                        
+//                    } else console.log(response.result);
+//                });
+//        });
+//    }
+        
 
 
     $(".remove").click(function(e){
@@ -158,4 +193,5 @@ $this->registerJs('
 ');
 
 ?>
+
 

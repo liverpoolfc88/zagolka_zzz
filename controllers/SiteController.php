@@ -231,7 +231,7 @@ class SiteController extends Controller
 
 
 
-    
+
 
 
      public function actionSucsess(){
@@ -305,6 +305,8 @@ class SiteController extends Controller
     }
     public function actionUpdate()
     {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+
         $item_id = $_GET['item'];
         $quantity = ($_GET['quantity'])?$_GET['quantity']:1;
         $error = 0;
@@ -328,9 +330,12 @@ class SiteController extends Controller
     public function actionCart()
     {
         $order = ShopcartOrders::goods();
+        $cost = $order->cost;
         // return $this->render('card');
         return $this->render('card', [
             'items' => $order,
+//            return json_encode($_POST);
+            'cost'=> json_encode($cost)
         ]);
     }
      public function actionPricelist(){
