@@ -103,8 +103,8 @@ $this->title = Lang::t('Shopping cart');
                             <?= Lang::t('  ta bor') ?>
                         <?}?>
                     </td>
-                    <td style="width: 15%" >
-                        <input   type="number" name="quantity" data-id="<?=$item->item->id?>"
+                    <td >
+                        <input style="width: 100px"    type="number" name="quantity" data-id="<?=$item->item->id?>"
                                  min="1" class="lolo input-quantity form-control" value="<?=$item->count?>">
                     </td>
                     <td>
