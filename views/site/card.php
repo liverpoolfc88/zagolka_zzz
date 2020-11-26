@@ -75,7 +75,7 @@ $this->title = Lang::t('Shopping cart');
                     </td>
                     <td>
                         <a href="<?=Url::to('/?slug='.$item->item->template->slug.'&item_slug='.$item->item->slug)?>">
-                            <h4 class="product_title"><?= $item->item->title?>&nbsp;<span>(<?=$item->item->template->title?>)</span></h4>
+                            <h5 class="product_title"><?= $item->item->title?>&nbsp;<span>(<?=$item->item->template->title?>)</span></h5>
                         </a>
                     </td>
                     <td>
@@ -102,8 +102,9 @@ $this->title = Lang::t('Shopping cart');
                             <?= Lang::t('  ta bor') ?>
                         <?}?>
                     </td>
-                    <td style="width: 10%" >
-                        <input   type="number" name="quantity" data-id="<?=$item->item->id?>" min="1" class="lolo input-quantity form-control" value="<?=$item->count?>">
+                    <td style="width: 15%" >
+                        <input   type="number" name="quantity" data-id="<?=$item->item->id?>"
+                                 min="1" class="lolo input-quantity form-control" value="<?=$item->count?>">
                     </td>
                     <td>
                         <a class="remove-item remove" href="#"      data-id="<?=$item->good_id?>" data-value="<?= $item->price  ?>" title="<?= Lang::t('Remove Item From Cart') ?>">
