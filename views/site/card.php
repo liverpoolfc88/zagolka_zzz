@@ -139,9 +139,31 @@ $this->title = Lang::t('Shopping cart');
 <p></p>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+
+</script>
+<script>
     $(function () {
+        var count = [];
+        var id = [];
+        $(".input-quantity").each(function(i){
+            count[i] = $(this).val();
+        });
+        $(".input-quantity").each(function(i){
+            id[i] = $(this).data("id");
+        });
+
+
+        $.get("/site/update",{item:id, quantity:count},function(response){
+            if(response.result=="success"){
+                $("#cost").html(response.cost);
+                console.log(response.cost);
+
+            } else console.log(response.result);
+        });
+
         $("input.lolo").bind('change', xodisa)
     });
+
     function xodisa(e) {
         // alert('okk');
         e.preventDefault();
@@ -157,7 +179,6 @@ $this->title = Lang::t('Shopping cart');
 
 
            $.get("/site/update",{item:id, quantity:count},function(response){
-
                    if(response.result=="success"){
                        $("#cost").html(response.cost);
                        console.log(response.cost);
