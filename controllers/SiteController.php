@@ -338,6 +338,17 @@ class SiteController extends Controller
             'cost'=> json_encode($cost)
         ]);
     }
+    public function actionCart1()
+    {
+        $order = ShopcartOrders::goods();
+        $cost = $order->cost;
+        // return $this->render('card');
+        return $this->render('card1', [
+            'items' => $order,
+//            return json_encode($_POST);
+            'cost'=> json_encode($cost)
+        ]);
+    }
      public function actionPricelist(){
 
         $price = MenuItem::find()->where(['status'=>[1,0]])->all();

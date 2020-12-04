@@ -62,7 +62,7 @@ use app\models\Lang;
 
     
 ?>
-<!--<script src="http://code.jquery.com/jquery.min.js"></script>-->
+<script src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
     $(function(){
         var data=[
