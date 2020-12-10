@@ -170,6 +170,10 @@ $this->title = Lang::t('Shopping cart');
             a = parseInt(a);
             if (a > 1) {
                 $("input." + title).val(a - 1);
+                let price = $('b.' + title).html();
+                price = parseInt(price);
+                var sum = price * (a - 1);
+                $("b.sum" + title).html(sum);
             }
         });
         $("button.plyus").click(function (e) {
