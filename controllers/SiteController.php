@@ -1,6 +1,7 @@
 <?php
 
 namespace app\controllers;
+
 use app\models\dilshod\Photo;
 use app\models\Lang;
 use Yii;
@@ -32,11 +33,11 @@ class SiteController extends Controller
             Yii::$app->language = $cookie->value;
         }
         if (Yii::$app->user->isGuest) {
-            if((Yii::$app->controller->action->id!='login') && 
-            (Yii::$app->controller->action->id!='signup')){
-            $model = new LoginForm();
-            return $this->redirect(['login', 'model' => $model]);
-        }
+            if ((Yii::$app->controller->action->id != 'login') &&
+                (Yii::$app->controller->action->id != 'signup')) {
+                $model = new LoginForm();
+                return $this->redirect(['login', 'model' => $model]);
+            }
         }
         return parent::beforeAction($action);
     }
@@ -90,9 +91,9 @@ class SiteController extends Controller
         // var_dump($item_slug); die;
         if ($slug) {
             $menu = Menu::find()->where(['slug' => $slug])->one();
-            $items = MenuItem::find()->where(['menu_id'=>$menu->id])->orderBy(['id'=>SORT_DESC])->all();
+            $items = MenuItem::find()->where(['menu_id' => $menu->id])->orderBy(['id' => SORT_DESC])->all();
             if ($item_slug) {
-                $items = MenuItem::find()->where(['slug'=>$item_slug])->orderBy(['id'=>SORT_DESC])->all();
+                $items = MenuItem::find()->where(['slug' => $item_slug])->orderBy(['id' => SORT_DESC])->all();
             }
             switch (count($items)) {
                 case 0:
@@ -100,17 +101,17 @@ class SiteController extends Controller
                     break;
 
                 case 1:
-                    return $this->renderPage($items,$menu);
+                    return $this->renderPage($items, $menu);
                     break;
-                
+
                 default:
                     return $this->renderPages($slug);
                     break;
             }
-            return $this->render('/'.$menu->template().'/pages');
+            return $this->render('/' . $menu->template() . '/pages');
         }
-        $photos = Photo::find()->where(['status'=>Photo::STATUS_ACTIVE])->all();
-        return $this->render('index',[
+        $photos = Photo::find()->where(['status' => Photo::STATUS_ACTIVE])->all();
+        return $this->render('index', [
             'photos' => $photos,
         ]);
     }
@@ -192,31 +193,28 @@ class SiteController extends Controller
     {
         $id = ShopcartOrders::getId();
         if (empty($id)) {
-        return $this->goHome();
-         }
-        $model=ShopcartOrders::find()->where(['order_id'=>$id])->one();
-        $user  = User::find()->where(['id'=>$model->auth_user])->one();
+            return $this->goHome();
+        }
+        $model = ShopcartOrders::find()->where(['order_id' => $id])->one();
+        $user = User::find()->where(['id' => $model->auth_user])->one();
 
-      
-        $model->status=1;  
-        $model->remark=$user->remark;
-        $model->address=$user->address.",".$model->remark;
-        $model->phone=$user->tel;
-        $model->name=$user->username;
-        $model->email=$user->email;
+
+        $model->status = 1;
+        $model->remark = $user->remark;
+        $model->address = $user->address . "," . $model->remark;
+        $model->phone = $user->tel;
+        $model->name = $user->username;
+        $model->email = $user->email;
 //        $model->access_token=null;
         // $model->remark=NULL;
-        
+
         if ($model->save())
             return $this->render('sucsess', [
-            'model' => $model,
-        ]);
+                'model' => $model,
+            ]);
         exit(Lang::t('error'));
-       
+
     }
-
-
-
 
 
     /**
@@ -230,16 +228,11 @@ class SiteController extends Controller
     }
 
 
-
-
-
-
-     public function actionSucsess(){
+    public function actionSucsess()
+    {
 
         return $this->render('sucsess');
     }
-
-
 
 
     public function actionSignup()
@@ -250,7 +243,7 @@ class SiteController extends Controller
             // var_dump($model);die;
             if ($user = $model->signup()) { // Регистрация
                 // if (Yii::$app->getUser()->login($user)) { // Логиним пользователя если регистрация успешна
-                    return $this->actionConfirm(); // Возвращаем на главную страницу
+                return $this->actionConfirm(); // Возвращаем на главную страницу
                 // }
             }
         }
@@ -259,30 +252,32 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
     public function renderPage($item, $menu)
     {
         $item = $item[0];
         $item->views += 1;
         $item->save(false);
-        return $this->render('/'.$menu->template().'/page',['model'=>$item,'menu'=>$menu]);
+        return $this->render('/' . $menu->template() . '/page', ['model' => $item, 'menu' => $menu]);
     }
+
     public function renderPages($slug)
     {
-        $menu = Menu::find()->where(['slug'=>$slug])->one();
+        $menu = Menu::find()->where(['slug' => $slug])->one();
         // sardor
-        $query = MenuItem::find()->where(['menu_id'=>$menu->id])->andWhere(['status'=>[MenuItem::STATUS_ACTIVE,MenuItem::STATUS_INACTIVE]]);
+        $query = MenuItem::find()->where(['menu_id' => $menu->id])->andWhere(['status' => [MenuItem::STATUS_ACTIVE, MenuItem::STATUS_INACTIVE]]);
         $countQuery = clone $query;
         $pages = new Pagination([
             'totalCount' => $countQuery->count(),
-            'pageSize' => 12 ]);
+            'pageSize' => 12]);
         $models = $query->offset($pages->offset)
-            ->orderBy(['id'=>SORT_DESC])
+            ->orderBy(['id' => SORT_DESC])
             ->limit($pages->limit)
             ->all();
         // echo "<pre>";var_dump($models); die;
-        return $this->render('/'.$menu->template().'/pages',[
-            'model' => $models, 
-            'pages' => $pages, 
+        return $this->render('/' . $menu->template() . '/pages', [
+            'model' => $models,
+            'pages' => $pages,
             'menu' => $menu
         ]);
     }
@@ -290,39 +285,38 @@ class SiteController extends Controller
     public function actionSale()
     {
         $item_id = $_GET['item'];
-        $quantity = (isset($_GET['quantity']))?$_GET['quantity']:1;
+        $quantity = (isset($_GET['quantity'])) ? $_GET['quantity'] : 1;
         //var_dump($item_id); die;
         $good = ShopcartGoods::saved($item_id, $quantity);
-        if ($good=="success") {
-            $order = ShopcartOrders::find()->where(['access_token'=>Yii::$app->session->getId()])->one();
-            Yii::$app->response->format='json';
-            return ['result' => 'success','cost'=>$order->cost, 'count'=>$order->count];
-        }
-        else {
-            Yii::$app->response->format='json';
+        if ($good == "success") {
+            $order = ShopcartOrders::find()->where(['access_token' => Yii::$app->session->getId()])->one();
+            Yii::$app->response->format = 'json';
+            return ['result' => 'success', 'cost' => $order->cost, 'count' => $order->count];
+        } else {
+            Yii::$app->response->format = 'json';
             return ['result' => 'error'];
         }
     }
+
     public function actionUpdate()
     {
         \Yii::$app->response->format = Response::FORMAT_JSON;
 
         $item_id = $_GET['item'];
-        $quantity = ($_GET['quantity'])?$_GET['quantity']:1;
+        $quantity = ($_GET['quantity']) ? $_GET['quantity'] : 1;
         $error = 0;
-        foreach ($item_id as $key => $item){
+        foreach ($item_id as $key => $item) {
             $good = ShopcartGoods::saved($item, $quantity[$key]);
-            if ($good != "success") $error +=1;
+            if ($good != "success") $error += 1;
         }
         //var_dump($error); die;
-        
+
         if (!$error) {
-            $order = ShopcartOrders::find()->where(['access_token'=>Yii::$app->session->getId()])->one();
-            Yii::$app->response->format='json';
-            return ['result' => 'success','cost'=>$order->cost, 'count'=>$order->count];
-        }
-        else {
-            Yii::$app->response->format='json';
+            $order = ShopcartOrders::find()->where(['access_token' => Yii::$app->session->getId()])->one();
+            Yii::$app->response->format = 'json';
+            return ['result' => 'success', 'cost' => $order->cost, 'count' => $order->count];
+        } else {
+            Yii::$app->response->format = 'json';
             return ['result' => 'error'];
         }
     }
@@ -335,9 +329,10 @@ class SiteController extends Controller
         return $this->render('card', [
             'items' => $order,
 //            return json_encode($_POST);
-            'cost'=> json_encode($cost)
+            'cost' => json_encode($cost)
         ]);
     }
+
     public function actionCart1()
     {
         $order = ShopcartOrders::goods();
@@ -346,26 +341,29 @@ class SiteController extends Controller
         return $this->render('card1', [
             'items' => $order,
 //            return json_encode($_POST);
-            'cost'=> json_encode($cost)
-        ]);
-    }
-     public function actionPricelist(){
-
-        $price = MenuItem::find()->where(['status'=>[1,0]])->all();
-
-        return $this->render('pricelist',[
-            'items'=>$price,
+            'cost' => json_encode($cost)
         ]);
     }
 
-    public function actionHistory(){
+    public function actionPricelist()
+    {
 
-         $model = ShopcartOrders::find()->where(['auth_user'=>Yii::$app->user->identity->id])
-         ->orderBy(['order_id'=>SORT_DESC])->all();
-         // echo "<pre>"; var_dump(Yii::$app->user->identity->id); die;
-         return $this->render('history',[
-            'history'=>$model
-         ]);
+        $price = MenuItem::find()->where(['status' => [1, 0]])->all();
+
+        return $this->render('pricelist', [
+            'items' => $price,
+        ]);
+    }
+
+    public function actionHistory()
+    {
+
+        $model = ShopcartOrders::find()->where(['auth_user' => Yii::$app->user->identity->id])
+            ->orderBy(['order_id' => SORT_DESC])->all();
+        // echo "<pre>"; var_dump(Yii::$app->user->identity->id); die;
+        return $this->render('history', [
+            'history' => $model
+        ]);
 
         // $history = MenuItem::find()->all();
 
@@ -373,38 +371,40 @@ class SiteController extends Controller
         //     'history'=>$history,
         // ]);
     }
-    public function actionChegirma(){
-        $model = MenuItem::find()
-        ->where(['not',['sale'=>NULL]])
-        ->andWhere(['not',['sale'=>'']])
-        ->orderBy(['sale'=>SORT_DESC])
-        ->limit(21)->all();    
 
-        return $this->render('chegirma',[
-            'model'=>$model
+    public function actionChegirma()
+    {
+        $model = MenuItem::find()
+            ->where(['not', ['sale' => NULL]])
+            ->andWhere(['not', ['sale' => '']])
+            ->orderBy(['sale' => SORT_DESC])
+            ->limit(21)->all();
+
+        return $this->render('chegirma', [
+            'model' => $model
         ]);
     }
 
 
-    public function actionNew(){
+    public function actionNew()
+    {
         $model = MenuItem::find()
-        ->where(['new'=>1])        
-        ->orderBy(['new'=>SORT_DESC])
-        ->limit(21)->all();    
+            ->where(['new' => 1])
+            ->orderBy(['new' => SORT_DESC])
+            ->limit(21)->all();
 
-        return $this->render('new',[
-            'model'=>$model
+        return $this->render('new', [
+            'model' => $model
         ]);
     }
-
 
 
     public function actionDelete()
     {
         $good_id = $_GET['good_id'];
-        $good = ShopcartGoods::find()->where(['good_id'=>$good_id])->one();
+        $good = ShopcartGoods::find()->where(['good_id' => $good_id])->one();
         $good->delete();
-        Yii::$app->response->format='json';
+        Yii::$app->response->format = 'json';
         return ['result' => 'success'];
     }
 
@@ -415,19 +415,19 @@ class SiteController extends Controller
 
     public function actionSearch()
     {
-        $new = Trans::find()->where(['status'=>1])
-        ->andWhere(['like', 'title', Yii::$app->request->queryParams['search']])
-        ->andWhere(['like', 'short', Yii::$app->request->queryParams['search']])
-        ->andWhere(['like', 'text', Yii::$app->request->queryParams['search']])
-        ->orderBy(["id" => SORT_DESC])
-        ->all();
-    // var_dump(Yii::$app->request->queryParams['search']);exit;
+        $new = Trans::find()->where(['status' => 1])
+            ->andWhere(['like', 'title', Yii::$app->request->queryParams['search']])
+            ->andWhere(['like', 'short', Yii::$app->request->queryParams['search']])
+            ->andWhere(['like', 'text', Yii::$app->request->queryParams['search']])
+            ->orderBy(["id" => SORT_DESC])
+            ->all();
+        // var_dump(Yii::$app->request->queryParams['search']);exit;
         // $data =$new->search(Yii::$app->request->queryParams);
         return $this->render('search', [
             'model' => $new,
         ]);
     }
-    
+
     // public function actionLoogin()
     // {
 
@@ -440,7 +440,8 @@ class SiteController extends Controller
     //     ]);
     // }
 
-    public function actionLang(){
+    public function actionLang()
+    {
         $get = Yii::$app->request->get();
         $cookies = Yii::$app->response->cookies;
         $cookies->add(new \yii\web\Cookie([
@@ -448,10 +449,10 @@ class SiteController extends Controller
             'value' => $get[1]['id'],
         ]));
         // echo "<pre>"; var_dump($vaa); die;
-        if($get){
+        if ($get) {
             return $this->redirect($get[1]['url']);
-        }else{
-          return $this->goHome();
+        } else {
+            return $this->goHome();
         }
     }
 }

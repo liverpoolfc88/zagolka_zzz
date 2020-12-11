@@ -10,61 +10,11 @@ $this->title = Lang::t('Shopping cart');
 // echo "<pre>"; var_dump($items->goods[0]->item->template->id); die;
 ?>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<style>
-    #customers {
-        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    #customers td, #customers th {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
-
-    #customers tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-
-    #customers tr:hover {
-        background-color: #ddd;
-    }
-
-    #customers th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: left;
-        background-color: #4CAF50;
-        color: white;
-    }
-
-</style>
-<!--cardiki-->
-<style>
-    .cards {
-        border: black solid 1px;
-        height: 200px;
-        margin: 10px 0
-    }
-
-    .cards:hover {
-        box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    .cardimage {
-        height: 100%;
-        width: 50%;
-    }
-
-    . + {
-        color: red;
-    }
-</style>
 <section>
     <div class="row">
         <?php if ($items->goods) : ?>
             <?php foreach ($items->goods as $key => $item) : ?>
-                <div id="<?= $item->good_id ?>" class="  col-md-6">
+                <div id="<?=$item->good_id?>" class="  col-md-6">
                     <div style="padding: 10px 0" class="w3-container">
                         <div class="w3-card-4" style="width:100%; padding: 10px 0">
                             <div class="w3-container">
@@ -83,7 +33,7 @@ $this->title = Lang::t('Shopping cart');
                                         <?= $item->pieces ?>
                                         <?= Lang::t('  ta bor') ?>
                                     <? } ?>
-                                    <button data-id="<?= $item->good_id ?>" class="lolo remove"
+                                    <button data-id="<?=$item->good_id?>" class="lolo remove"
                                             style="position: absolute; right: 30px; color: red" type="">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
@@ -107,7 +57,7 @@ $this->title = Lang::t('Shopping cart');
                                             <?= Lang::t('Price') ?> :
                                             <b class="<?= $key ?>">
                                                 <? if ($item->item->sale): ?>
-                                                    <?= $item->item->price * (1 - $item->item->sale / 100) ?>
+                                                    <?= $item->item->price * (1 - $item->item->sale / 100) ?> <?= '<span style="text-decoration: line-through;">' . $item->item->price . '</span>' ?>
                                                 <? else: ?>
                                                     <?= $item->item->price ?>
                                                 <? endif; ?>
@@ -161,7 +111,6 @@ $this->title = Lang::t('Shopping cart');
 
 </script>
 <script>
-
     $(function () {
         $("button.minus").click(function (e) {
             e.preventDefault();
@@ -182,26 +131,49 @@ $this->title = Lang::t('Shopping cart');
             let a = $("input." + title).val();
             a = parseInt(a);
             $("input." + title).val(a + 1);
-
             let price = $('b.' + title).html();
             price = parseInt(price);
-
-            // let salec = $('h1.'+title).html();
-            // salec = parseInt(salec);
-
-
             var sum = price * (a + 1);
             console.log(sum);
-
             $("b.sum" + title).html(sum);
         });
-        // $("button.remove").click(function (e) {
-        //     e.preventDefault();
-        //     $.get("/site/delete",{good_id: data},function(response){
-        //
-        //     });
-        // })
+    });
+
+    $(function () {
+        $("button.remove").bind('click', remove)
     })
+
+    function remove(e){
+        e.preventDefault();
+        let data = $(this).attr('data-id');
+        $.get("/site/delete", {good_id: data}, function (response) {
+            console.log(response);
+            if (response.result == "success") {
+                console.log("o`chib ketdi");
+                $("div#" + data).remove();
+
+                var count = [];
+                var id = [];
+                $(".input-quantity").each(function (i) {
+                    count[i] = $(this).val();
+                });
+                $(".input-quantity").each(function (i) {
+                    id[i] = $(this).data("id");
+                });
+                $.get("/site/update", {item: id, quantity: count}, function (response) {
+                    if (response.result == "success") {
+                        $("#cost").html(response.cost);
+                        console.log(response.cost);
+                    } else console.log(response.result);
+                });
+
+            }
+            else console.log(response.result);
+        });
+
+
+
+    }
 
 
     $(function () {
@@ -213,8 +185,6 @@ $this->title = Lang::t('Shopping cart');
         $(".input-quantity").each(function (i) {
             id[i] = $(this).data("id");
         });
-
-
         $.get("/site/update", {item: id, quantity: count}, function (response) {
             if (response.result == "success") {
                 $("#cost").html(response.cost);
@@ -225,11 +195,9 @@ $this->title = Lang::t('Shopping cart');
 
         $("button.lolo").bind('click', xodisa)
     });
-
     function xodisa(e) {
         // alert('okk');
         e.preventDefault();
-
         var count = [];
         var id = [];
         $(".input-quantity").each(function (i) {
@@ -238,13 +206,10 @@ $this->title = Lang::t('Shopping cart');
         $(".input-quantity").each(function (i) {
             id[i] = $(this).data("id");
         });
-
-
         $.get("/site/update", {item: id, quantity: count}, function (response) {
             if (response.result == "success") {
                 $("#cost").html(response.cost);
                 console.log(response.cost);
-
             } else console.log(response.result);
         });
         // console.log(data);
@@ -281,24 +246,24 @@ $this->registerJs('
         
 
 
-    $("button.remove").click(function(e){
-        e.preventDefault();
-        var data = $(this).attr("data-id");
-        var id = $(this).attr("data-id");
-        $.get("/site/delete",{good_id: data},function(response){
-        // console.log(responce);
-            if(response.result=="success") {
-            console.log("success");
-            
-            console.log(id);
-//             window.location.reload();
-            $("#"+id).remove();
-            }
-            else console.log(response.result);
-            //$(".summa b").html(summa-value);
-        });
-        
-    });
+//    $("button.remove").click(function(e){
+//        e.preventDefault();
+//        var data = $(this).attr("data-id");
+//        var id = $(this).attr("data-id");
+//        $.get("/site/delete",{good_id: data},function(response){
+//        // console.log(responce);
+//            if(response.result=="success") {
+//            console.log("success");
+//            
+//            console.log(id);
+////             window.location.reload();
+//            $("#"+id).remove();
+//            }
+//            else console.log(response.result);
+//            //$(".summa b").html(summa-value);
+//        });
+//        
+//    });
 ');
 
 ?>

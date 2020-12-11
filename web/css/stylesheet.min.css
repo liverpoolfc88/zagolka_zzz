@@ -566,7 +566,7 @@ span.cart-title {
 	margin-right: 10px
 }
 span#cart-total {
-	font-weight: 700;
+	/*font-weight: 700;*/
 	width: 63%;
 	display: inline-block
 }
@@ -1404,3 +1404,51 @@ img.min-h-img {
         cursor: default; /*  курсор в виде стрелки */
         color: #336699; /* цвет текста серый */
     }
+
+
+
+
+#customers {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#customers td, #customers th {
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+
+#customers tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+#customers tr:hover {
+	background-color: #ddd;
+}
+
+#customers th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #4CAF50;
+	color: white;
+}
+
+
+
+
+.cards {
+	border: black solid 1px;
+	height: 200px;
+	margin: 10px 0
+}
+
+.cards:hover {
+	box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+.cardimage {
+	height: 100%;
+	width: 50%;
+}
