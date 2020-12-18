@@ -314,7 +314,7 @@ class SiteController extends Controller
         if (!$error) {
             $order = ShopcartOrders::find()->where(['access_token' => Yii::$app->session->getId()])->one();
             Yii::$app->response->format = 'json';
-            return ['result' => 'succ   ess', 'cost' => $order->cost, 'count' => $order->count];
+            return ['result' => 'success', 'cost' => $order->cost, 'count' => $order->count];
         } else {
             Yii::$app->response->format = 'json';
             return ['result' => 'error'];
