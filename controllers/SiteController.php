@@ -300,7 +300,7 @@ class SiteController extends Controller
 
     public function actionUpdate()
     {
-        \Yii::$app->response->format = Response::FORMAT_JSON;
+        Yii::$app->response->format = Response::FORMAT_JSON;
 
         $item_id = $_GET['item'];
         $quantity = ($_GET['quantity']) ? $_GET['quantity'] : 1;
@@ -403,9 +403,12 @@ class SiteController extends Controller
     {
         $good_id = $_GET['good_id'];
         $good = ShopcartGoods::find()->where(['good_id' => $good_id])->one();
-        $good->delete();
         Yii::$app->response->format = 'json';
-        return ['result' => 'success'];
+        if ($good) {
+            Yii::$app->db->createCommand('DELETE FROM in_shopcart_goods WHERE good_id='.$good_id)->execute();
+            return ['result' => 'success'];
+        }
+        return ['result' => 'error'];
     }
 
     public function actionConfirm()
